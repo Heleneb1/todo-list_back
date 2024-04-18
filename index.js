@@ -21,26 +21,6 @@ app.get('/items', (req, res) => {
       res.status(500).send('error retrieving data from database')
     })
 })
-// app.post('/items', (req, res) => {
-//   database
-//     .query('INSERT INTO items SET ?', req.body)
-//     .then(() => res.status(201).send('item added'))
-//     .catch((err) => {
-//       console.error(err)
-//       res.status(500).send('error adding item')
-//     })
-// })
-// app.delete('/items/:id', (req, res) => {
-//   const itemId = req.params.id
-//   console.log('itemId', itemId)
-//   database
-//     .query('DELETE FROM items WHERE id = ?', itemId)
-//     .then(() => res.status(200).send('item deleted'))
-//     .catch((err) => {
-//       console.error(err)
-//       res.status(500).send('error deleting item')
-//     })
-// })
 app.delete('/items/:id', (req, res) => {
   const itemId = req.params.id
 
@@ -56,15 +36,6 @@ app.delete('/items/:id', (req, res) => {
     })
 })
 
-// app.put('/items/:id', (req, res) => {
-//   database
-//     .query('UPDATE items SET ? WHERE id = ?', [req.body, req.params.id])
-//     .then(() => res.status(200).send('item updated'))
-//     .catch((err) => {
-//       console.error(err)
-//       res.status(500).send('error updating item')
-//     })
-// })
 app.put('/items/:id', (req, res) => {
   const itemId = req.params.id
   const updatedItem = req.body // Obtenir l'élément mis à jour à partir du corps de la requête
