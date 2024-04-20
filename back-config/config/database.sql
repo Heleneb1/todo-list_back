@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: todolist_db
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,8 +23,12 @@ DROP TABLE IF EXISTS `items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `items` (
-  `iditems` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`iditems`)
+  `id` varchar(45) NOT NULL,
+  `title` varchar(150) DEFAULT NULL,
+  `itemContent` varchar(245) DEFAULT NULL,
+  `isComplete` tinyint(1) DEFAULT '0',
+  `created` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -34,6 +38,7 @@ CREATE TABLE `items` (
 
 LOCK TABLES `items` WRITE;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
+INSERT INTO `items` VALUES ('8ab27aea-adb3-4fa0-a05f-6d5bcdca71b7','ffffff','vvvvvvvvvvvvvvvvvvvvvvvvvvvvv',1,'2024-04-20'),('bf421501-f87f-4f76-9f25-fd0675ae418f','Learn Postman','Understand how to use Postman for API testing',0,'2024-04-20'),('df27e878-0326-4c5a-b80d-9d66f7b0be9d','helle','ccccccccccccccccc',1,'2024-04-20');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -46,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-15 21:38:02
+-- Dump completed on 2024-04-20 19:59:47
