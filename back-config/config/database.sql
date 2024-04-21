@@ -38,7 +38,7 @@ CREATE TABLE `items` (
 
 LOCK TABLES `items` WRITE;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
-INSERT INTO `items` VALUES ('8ab27aea-adb3-4fa0-a05f-6d5bcdca71b7','ffffff','vvvvvvvvvvvvvvvvvvvvvvvvvvvvv',1,'2024-04-20'),('bf421501-f87f-4f76-9f25-fd0675ae418f','Learn Postman','Understand how to use Postman for API testing',0,'2024-04-20'),('df27e878-0326-4c5a-b80d-9d66f7b0be9d','helle','ccccccccccccccccc',1,'2024-04-20');
+INSERT INTO `items` VALUES ('305c284e-783b-44a4-824c-6651502652ac','Learn TypeScript','Understand how to use TypeScript for static typing in JavaScript',0,'2024-04-21'),('8e7c08a4-748c-4dfb-b17b-d0b29d79846e','Learn Angular','Understand how to use Angular for front-end development',0,'2024-04-21'),('a4cdc77e-0e9f-4192-a66c-148dba4bb6fb','Learn Node.js','Understand how to use Node.js for back-end development',0,'2024-04-21'),('bf421501-f87f-4f76-9f25-fd0675ae418f','Learn MySQL','Understand how to use MySQL for storing and retrieving data',1,'2024-04-20'),('c5a82026-edc8-4968-aa82-0bd2a9096201','Learn Postman','Understand how to use Postman for API testing',0,'2024-04-20'),('e93a7447-dc2b-490c-8822-140e6fda2edd','Learn MongoDB','Understand how to use MongoDB for storing and retrieving data',0,'2024-04-21'),('e9d870bb-c972-41c1-a2c7-32a39cbc97df','Learn Express.js','Understand how to use Express.js for creating web application back-end in Node.js',0,'2024-04-21');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-20 19:59:47
+-- Dump completed on 2024-04-21 23:39:59
