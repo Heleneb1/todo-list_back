@@ -24,7 +24,7 @@ const login = async (req, res) => {
     res.cookie("auth_token", token, { httpOnly: true, secure: false });
     // Déplacer le set des headers avant d'envoyer la réponse
     res.set('Authorization', `Bearer ${token}`);
-    return res.status(200).json({ user: user.firstname, token });
+    return res.status(200).json({ user: user.firstname, token, id: user.id });
   } catch (err) {
     console.error(err);
     if (!res.headersSent) { // Vérifier si une réponse n'a pas déjà été envoyée

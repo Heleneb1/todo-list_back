@@ -3,7 +3,7 @@ const uuid = require('uuid')
 
 const findOne = async (id) => {
     try {
-        const [task] = await db.query("SELECT * FROM `items` WHERE id = ?", [id]);
+        const [task] = await db.query("SELECT * FROM `tasks` WHERE id = ?", [id]);
         return task;
     } catch (err) {
         console.error(err);
@@ -13,8 +13,19 @@ const findOne = async (id) => {
 
 const findAll = async () => {
     try {
-        const [items] = await db.query("SELECT * FROM `items`");
-        return items;
+        const [tasks] = await db.query("SELECT * FROM `tasks`");
+        return tasks;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+};
+
+const findAllTasksInList = async (list_id) => {
+    console.log("list_id", list_id);
+    try {
+        const [tasks] = await db.query("SELECT * FROM `tasks`WHERE list_id = ?", [list_id]);
+        return tasks;
     } catch (err) {
         console.error(err);
         throw err;
@@ -23,7 +34,7 @@ const findAll = async () => {
 
 const deleteOne = async (id) => {
     try {
-        const [result] = await db.query("DELETE FROM `items` WHERE id = ?", [id]);
+        const [result] = await db.query("DELETE FROM `tasks` WHERE id = ?", [id]);
         return result;
     } catch (err) {
         console.error(err);
@@ -31,36 +42,73 @@ const deleteOne = async (id) => {
     }
 };
 
-const updateOne = async (id, updatedItem) => {
+const updateOne = async (id, updatedtask) => {
     try {
-        const [result] = await db.query("UPDATE `items` SET ? WHERE id = ?", [updatedItem, id]);
+        const [result] = await db.query("UPDATE `tasks` SET ? WHERE id = ?", [updatedtask, id]);
         return result;
     } catch (err) {
         console.error(err);
         throw err;
     }
 };
+const addedTaskToList = async (listId, taskData) => {
+    try {
+        const { title, isComplete, created, taskContent } = taskData;
 
-const createOne = async (itemData) => {
-    const { title, isComplete, created, itemContent } = itemData;
+        // Vérifier le titre de la tâche 
+        if (!title) {
+            throw new Error('Le titre de la tâche est obligatoire');
+        }
+
+        // Générer un nouvel ID pour la tâche
+        const taskId = uuid.v4();
+
+        // Insérer la tâche dans la liste avec le nouvel ID
+        const [result] = await db.query("INSERT INTO `tasks` SET ?", {
+            id: taskId,
+            title,
+            taskContent,
+            isComplete: isComplete || false,
+            created: created || new Date(),
+            list_id: listId
+        });
+        
+        // Créez un objet tâche avec les détails fournis
+        const task = {
+            id: taskId,
+            title,
+            isComplete: isComplete || false,
+            created: created || new Date(),
+            taskContent: taskContent || ''
+        };
+
+        return task;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+};
+
+const createOne = async (taskData) => {
+    const { title, isComplete, created, taskContent } = taskData;
     try {
         if (!title) {
             throw new Error('Le titre est obligatoire');
         }
-        const item = {
+        const task = {
             title,
             isComplete: isComplete || false,
             created: created || new Date(),
-            itemContent: itemContent || '',
+            taskContent: taskContent || '',
             id: uuid.v4()
         };
-        const result = await db.query("INSERT INTO `items` SET ?", item);
-        item.id = result.insertId;
-        return item;
+        const result = await db.query("INSERT INTO `tasks` SET ?", task);
+        task.id = result.insertId;
+        return task;
     } catch (err) {
         console.error(err);
         throw err;
     }
 };
 
-module.exports = { findOne, findAll, deleteOne, updateOne, createOne };
+module.exports = { findOne, findAll, findAllTasksInList, deleteOne, updateOne, addedTaskToList, createOne };
