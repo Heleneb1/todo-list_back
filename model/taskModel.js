@@ -43,11 +43,17 @@ const deleteOne = async (id) => {
 };
 
 const updateOne = async (id, updatedtask) => {
+    // Apply formatting to the `created` date if it exists
+    if (updatedtask.created) {
+        updatedtask.created = new Date(updatedtask.created).toISOString().slice(0, 19).replace('T', ' ');
+    }
+
     try {
-        const [result] = await db.query("UPDATE `tasks` SET ? WHERE id = ?", [updatedtask, id]);
+        // Execute the update query
+        const [result] = await db.query("UPDATE tasks SET ? WHERE id = ?", [updatedtask, id]);
         return result;
     } catch (err) {
-        console.error(err);
+        console.error('Update failed:', err);
         throw err;
     }
 };
@@ -72,7 +78,7 @@ const addedTaskToList = async (listId, taskData) => {
             created: created || new Date(),
             list_id: listId
         });
-        
+
         // Créez un objet tâche avec les détails fournis
         const task = {
             id: taskId,
