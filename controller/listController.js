@@ -1,4 +1,4 @@
-const { findOneList, findAllList,findAllListByUser, deleteOneList, updateOneList, createOneList } = require("../model/listModel");
+const { findOneList, findAllList, findAllListByUser, deleteOneList, updateOneList, createOneList } = require("../model/listModel");
 const getOneList = async (req, res) => {
     const listId = parseInt(req.params.id, 10);
 
@@ -22,8 +22,7 @@ const getAllLists = async (req, res) => {
     }
 };
 const getAllListsByUser = async (req, res) => {
-    const {user_id} = req.params;
-    console.log(req.params);
+    const { user_id } = req.params;
     try {
         const lists = await findAllListByUser(user_id);
         // console.log("lists in controller", lists);
@@ -38,11 +37,10 @@ const addOneList = async (req, res) => {
     try {
         // Assurez-vous que l'utilisateur est authentifié et que vous avez accès à ses informations d'identification ou à son ID
         const userId = req.body.user_id; // Supposons que l'ID de l'utilisateur est accessible dans req.body.user_id
-        console.log("userId in controller", userId);
-        const { name } = req.body;
-        
+        const { name, listContent } = req.body;
+
         // Ajoutez l'ID de l'utilisateur à la liste
-        const result = await createOneList({ name }, userId); // Passer userId comme un paramètre distinct
+        const result = await createOneList({ name, listContent }, userId); // Passer userId comme un paramètre distinct
 
         res.status(201).send(result);
     } catch (err) {
@@ -51,30 +49,30 @@ const addOneList = async (req, res) => {
 };
 
 
-
 const updateOneById = async (req, res) => {
     const listId = parseInt(req.params.id, 10);
-    const {name } = req.body;
+    const { name } = req.body;
 
     try {
         if (isNaN(listId)) {
             throw new Error();
         }
-        const result = await updateOneList(listId, {name });
+        const result = await updateOneList(listId, { name });
         res.send(result);
     } catch (err) {
         res.sendStatus(500);
     }
 };
 
-const deleteOneById = async (req, res) => { 
-    const listId = parseInt(req.params.id);
+const deleteOneById = async (req, res) => {
+    const listId = (req.params.id);
+    console.log("listId", listId);
 
     try {
-      
+
         const result = await deleteOneList(listId);
         res.send(result
-        );  
+        );
     }
     catch (err) {
         res.sendStatus(500);
@@ -82,5 +80,5 @@ const deleteOneById = async (req, res) => {
 }
 
 
-module.exports = { getOneList, getAllLists,getAllListsByUser, addOneList, updateOneById, deleteOneById};
+module.exports = { getOneList, getAllLists, getAllListsByUser, addOneList, updateOneById, deleteOneById };
 

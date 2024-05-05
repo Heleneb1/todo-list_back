@@ -59,7 +59,7 @@ const updateOne = async (id, updatedtask) => {
 };
 const addedTaskToList = async (listId, taskData) => {
     try {
-        const { title, isComplete, created, taskContent } = taskData;
+        const { title, isComplete, created } = taskData;
 
         // Vérifier le titre de la tâche 
         if (!title) {
@@ -69,13 +69,14 @@ const addedTaskToList = async (listId, taskData) => {
         // Générer un nouvel ID pour la tâche
         const taskId = uuid.v4();
 
+        // Convertir la date en format DATETIME
+        const createdDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
         // Insérer la tâche dans la liste avec le nouvel ID
         const [result] = await db.query("INSERT INTO `tasks` SET ?", {
             id: taskId,
             title,
-            taskContent,
             isComplete: isComplete || false,
-            created: created || new Date(),
+            created: createdDate,
             list_id: listId
         });
 
@@ -84,8 +85,8 @@ const addedTaskToList = async (listId, taskData) => {
             id: taskId,
             title,
             isComplete: isComplete || false,
-            created: created || new Date(),
-            taskContent: taskContent || ''
+            created: createdDate,
+
         };
 
         return task;
@@ -96,16 +97,18 @@ const addedTaskToList = async (listId, taskData) => {
 };
 
 const createOne = async (taskData) => {
-    const { title, isComplete, created, taskContent } = taskData;
+    const { title, isComplete, created } = taskData;
     try {
         if (!title) {
             throw new Error('Le titre est obligatoire');
         }
+        // Convertir la date en format DATETIME
+        const createdDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
         const task = {
             title,
             isComplete: isComplete || false,
-            created: created || new Date(),
-            taskContent: taskContent || '',
+            created: createdDate,
             id: uuid.v4()
         };
         const result = await db.query("INSERT INTO `tasks` SET ?", task);

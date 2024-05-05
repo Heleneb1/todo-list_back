@@ -3,7 +3,7 @@ const validateUser = require("../validator/userValidator");
 const { hashPassword } = require("../helper/argonHelper");
 const path = require('path');
 const { json } = require("express");
-const { log } = require("console");
+
 
 
 
