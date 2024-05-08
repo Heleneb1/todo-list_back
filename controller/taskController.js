@@ -1,4 +1,4 @@
-const { findOne, findAll,findAllTasksInList, deleteOne, updateOne, createOne,addedTaskToList } = require("../model/taskModel");
+const { findOne, findAll, findAllTasksInList, deleteOne, updateOne, createOne, addedTaskToList } = require("../model/taskModel");
 const getOne = async (req, res) => {
     const userId = parseInt(req.params.id, 10);
 
@@ -35,8 +35,8 @@ const getTasksInList = async (req, res) => {
 
 const addOneTask = async (req, res) => {
     try {
-        const { title, isComplete, created, taskContent } = req.body;
-        const result = await createOne({ title, isComplete, created, taskContent });
+        const { title, isComplete, created } = req.body;
+        const result = await createOne({ title, isComplete, created });
         res.status(201).send(result);
     } catch (err) {
         res.sendStatus(500);
@@ -45,25 +45,25 @@ const addOneTask = async (req, res) => {
 
 const updateOneById = async (req, res) => {
     const taskId = req.params.id;
-    const { title, isComplete, created, taskContent } = req.body;
+    const { title, isComplete, created } = req.body;
 
     try {
-        
-        const result = await updateOne(taskId, { title, isComplete, created, taskContent });
+
+        const result = await updateOne(taskId, { title, isComplete, created });
         res.send(result);
     } catch (err) {
         res.sendStatus(500);
     }
 };
 
-const deleteOneById = async (req, res) => { 
+const deleteOneById = async (req, res) => {
     const taskId = req.params.id;
 
     try {
-     
+
         const result = await deleteOne(taskId);
         res.send(result
-        );  
+        );
     }
     catch (err) {
         res.sendStatus(500);
@@ -73,11 +73,11 @@ const deleteOneById = async (req, res) => {
 const addTaskToList = async (req, res) => {
     const taskId = req.body.taskId; // Utiliser req.body.taskId pour récupérer taskId
     const listId = req.params.list_id;
-    const { title, isComplete, created, taskContent } = req.body;
+    const { title, isComplete, created } = req.body;
 
     try {
         // Ajouter la tâche à la liste
-        const result = await addedTaskToList(listId, { title, isComplete, created, taskContent });
+        const result = await addedTaskToList(listId, { title, isComplete, created });
         console.log("Tâche ajoutée à la liste :", result);
 
         // Envoyer la réponse
@@ -87,5 +87,5 @@ const addTaskToList = async (req, res) => {
         res.sendStatus(500);
     }
 };
-module.exports = { getOne, getAll,getTasksInList, addOneTask, addTaskToList, updateOneById, deleteOneById};
+module.exports = { getOne, getAll, getTasksInList, addOneTask, addTaskToList, updateOneById, deleteOneById };
 

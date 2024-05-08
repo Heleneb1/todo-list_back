@@ -17,7 +17,8 @@ const authorization = async (req, res, next) => {
     }
 
     const userData = decodeJWT(token);  // Assurez-vous que cette fonction gère les exceptions internes
-    // console.info("Le token décodé :", userData);
+
+    console.info("Le token décodé :", userData);
 
     req.user = userData;  // Attacher les données utilisateur à la requête
 

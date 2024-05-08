@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const authorization = require('./middleware/auth')
+// const authorization = require('./middleware/auth')
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const upload = multer();

@@ -7,6 +7,7 @@ const authRoutes = require("./authRoutes");
 const listRoutes = require("./listRoutes");
 
 const authorization = require("../middleware/auth");
+const authMiddleware = require("../middleware/authMiddleware");
 
 // Route racine
 router.get('/', (req, res) => {
@@ -14,14 +15,14 @@ router.get('/', (req, res) => {
 });
 
 // Routes pour les tâches avec autorisation requise
-router.use("/tasks", authorization, taskRoutes);
+router.use("/tasks", authMiddleware, authorization, taskRoutes);
 
 
-router.use("/users", userRoutes);
+router.use("/users", authMiddleware, userRoutes);
 
 
 router.use("/auth", authRoutes);
 
-router.use("/lists",listRoutes );
+router.use("/lists", authMiddleware, listRoutes);
 
 module.exports = router;

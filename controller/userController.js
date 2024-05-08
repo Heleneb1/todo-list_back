@@ -18,12 +18,10 @@ const getAllUsers = async (req, res) => {
 };
 
 const getOne = async (req, res) => {
-  const userId = parseInt(req.params.id, 10);
+  const userId = (req.params.id);
 
   try {
-    if (isNaN(userId)) {
-      throw new Error();
-    }
+
     const [user] = await findOne(userId);
     res.send(user);
     console.log("user", user);

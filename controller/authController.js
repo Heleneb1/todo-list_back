@@ -1,9 +1,7 @@
-
 const validateLogin = require("../validator/authValidator");
 const { findByEmail } = require("../model/userModel");
 const { verifyPassword } = require("../helper/argonHelper");
 const { encodeJWT } = require("../helper/jwtHelper");
-
 
 const login = async (req, res) => {
   try {
@@ -21,20 +19,34 @@ const login = async (req, res) => {
     }
     delete user.password;
     const token = encodeJWT(user);
-    res.cookie("auth_token", token, { httpOnly: true, secure: false });
-    // Déplacer le set des headers avant d'envoyer la réponse
+    // console.log("Token:", token);
+    res.cookie("auth_token", token, { httpOnly: true, secure: true, maxAge: 3600000 }); // 1 hour expiration
     res.set('Authorization', `Bearer ${token}`);
-    return res.status(200).json({ user: user.firstname, token, id: user.id });
+    res.header('Access-Control-Expose-Headers', 'Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.status(200).json({ user: user.firstname, token, id: user.id });
   } catch (err) {
-    console.error(err);
-    if (!res.headersSent) { // Vérifier si une réponse n'a pas déjà été envoyée
-      res.sendStatus(500);
-    }
+    console.error("Login error:", err);
+    res.sendStatus(500); // Internal server error
   }
-};
-
+}
 const logout = async (req, res) => {
   res.clearCookie("auth_token").sendStatus(200);
 };
+const checkAuthStatus = (req, res) => {
+  console.log(req, res);
+  // Vérifie si le cookie 'auth_token' est présent dans la requête
+  console.log('Hello', req.cookies.auth_token);
+  if (req.cookies.auth_token) {
+    // Si le cookie est présent, l'utilisateur est authentifié
+    res.status(200).send("User is still authenticated");
+  } else {
+    // Si le cookie n'est pas présent, l'utilisateur est déconnecté
+    res.status(401).send("User is logged out");
+  }
 
-module.exports = { login, logout };
+};
+
+
+
+module.exports = { login, logout, checkAuthStatus };
